@@ -32,3 +32,19 @@ def bid():
     # Track new high bid
     self.highestBidder = msg.sender
     self.highestBid = msg.value
+
+@external
+def endAuction():
+    # following steps must be performed in order for correct
+    # contract functionality
+
+    # check if the end of auction condition has been met
+    assert block.timestamp >= self.auctionEnd
+    # check that the auction hasn't already been ended
+    assert not self.ended
+
+    # if above conditions are met, do the thing
+    self.ended = True
+
+    # send (record) the interaction
+    send(self.beneficiary, self.highestBid)
