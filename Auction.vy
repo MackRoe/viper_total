@@ -13,3 +13,9 @@ ended: public(bool)
 
 # Keep track of refunded bids so we can follow the withdraw pattern
 pendingReturns: public(HashMap[address, uint256])
+
+@external
+def __init__(_beneficiary: address, _bidding_time: uint256):
+    self.beneficiary = _beneficiary
+    self.auctionStart = block.timestamp
+    self.auctionEnd = self.auctionStart + _bidding_time
