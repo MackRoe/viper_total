@@ -19,3 +19,16 @@ def __init__(_beneficiary: address, _bidding_time: uint256):
     self.beneficiary = _beneficiary
     self.auctionStart = block.timestamp
     self.auctionEnd = self.auctionStart + _bidding_time
+
+@external
+@payable
+def bid():
+    # Check if bidding period is over.
+    assert block.timestamp < self.auctionEnd
+    # Check if bid is high enough
+    assert msg.value > self.highestBid
+    # Track the refund for the previous high bidder
+    self.pendingReturns[self.highestBidder] += self.highestBid
+    # Track new high bid
+    self.highestBidder = msg.sender
+    self.highestBid = msg.value
